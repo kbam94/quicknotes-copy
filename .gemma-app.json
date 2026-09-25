@@ -1,0 +1,7 @@
+{
+  "name": "QuickNotes",
+  "description": "A lightweight, mobile-first note-taking application with local persistence.",
+  "model": "google/gemma-4-31b-it",
+  "prompt": "Build me a simple note taking app",
+  "generatedAt": "2026-09-25T06:16:01.294Z"
+}
