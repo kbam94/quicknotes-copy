@@ -26,15 +26,30 @@ jobs:
 
       - name: Initialize Web App & Capacitor Wrapper
         run: |
-          npm init -y
+          set -ex
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
+          if [ ! -f capacitor.config.json ]; then
+            cat << 'CJSON' > capacitor.config.json
+          {
+            "appId": "com.quicknotes.app",
+            "appName": "QuickNotes",
+            "webDir": ".",
+            "bundledWebRuntime": false
+          }
+          CJSON
+          fi
+
           if [ ! -d "android" ]; then
-            npx cap init "QuickNotes" "com.quicknotes.app" --web-dir "."
             npx cap add android
           fi
 
-          npx cap sync android
+          npx cap copy android
+          npx cap update android
 
       - name: Build Android APK via Gradle
         run: |
