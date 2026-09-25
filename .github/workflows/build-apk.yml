@@ -24,6 +24,26 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Prepare Web Directory & Stage Assets
+        run: |
+          set -ex
+          mkdir -p www
+          
+          # Find main entrypoint html file or create index.html
+          if [ -f index.html ]; then
+            cp index.html www/index.html
+          else
+            MAIN_HTML=$(ls *.html 2>/dev/null | head -n 1)
+            if [ -n "$MAIN_HTML" ]; then
+              cp "$MAIN_HTML" www/index.html
+            else
+              echo "<!DOCTYPE html><html><head><title>App</title></head><body><h1>App Loaded</h1></body></html>" > www/index.html
+            fi
+          fi
+
+          # Copy remaining assets into webDir
+          cp -r *.html *.css *.js assets manifest.json www/ 2>/dev/null || true
+
       - name: Initialize Web App & Capacitor Wrapper
         run: |
           set -ex
@@ -31,18 +51,16 @@ jobs:
             npm init -y
           fi
 
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
 
-          if [ ! -f capacitor.config.json ]; then
-            cat << 'CJSON' > capacitor.config.json
+          cat << 'CJSON' > capacitor.config.json
           {
             "appId": "com.quicknotes.app",
             "appName": "QuickNotes",
-            "webDir": ".",
+            "webDir": "www",
             "bundledWebRuntime": false
           }
           CJSON
-          fi
 
           if [ ! -d "android" ]; then
             npx cap add android
