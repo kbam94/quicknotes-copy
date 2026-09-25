@@ -7,3 +7,8 @@ gemini-gemma-apps-*.sh
 *.tmp
 downloaded-artifacts/
 node_modules/
+
+gemini-gemma-apps-*.sh
+*.tmp
+downloaded-artifacts/
+node_modules/

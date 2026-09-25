@@ -26,19 +26,15 @@ jobs:
 
       - name: Initialize Web App & Capacitor Wrapper
         run: |
-          if [ ! -f package.json ]; then
-            npm init -y
-          fi
+          npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
-          # Initialize Capacitor project if android/ folder does not exist
           if [ ! -d "android" ]; then
-            npx cap init "GemmaApp" "com.gemma.app" --web-dir "."
+            npx cap init "QuickNotes" "com.quicknotes.app" --web-dir "."
             npx cap add android
           fi
 
-          # Sync web assets into Android native assets
-          npx cap copy android
+          npx cap sync android
 
       - name: Build Android APK via Gradle
         run: |
@@ -50,10 +46,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: |
-            android/app/build/outputs/apk/debug/app-debug.apk
-            *.apk
-            *.html
-            *.css
-            *.js
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
