@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QuickNotes</title>
+    <title>NightNotes</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>QuickNotes</h1>
+            <h1>NightNotes</h1>
             <button id="add-note-btn" class="fab">+</button>
         </header>
 
@@ -20,13 +20,14 @@
         <div id="note-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button id="close-modal" class="btn-text">Cancel</button>
-                    <button id="save-note" class="btn-primary">Save</button>
+                    <button id="close-modal">✕</button>
+                    <input type="text" id="note-title" placeholder="Title..." autofocus>
+                    <button id="save-note-btn">Save</button>
                 </div>
-                <input type="text" id="note-title" placeholder="Title" autocomplete="off">
-                <textarea id="note-body" placeholder="Start typing..." spellcheck="false"></textarea>
+                <textarea id="note-body" placeholder="Start typing your thoughts..."></textarea>
             </div>
         </div>
+        <div id="modal-overlay" class="overlay"></div>
     </div>
     <script src="app.js"></script>
 </body>

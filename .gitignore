@@ -1,0 +1,4 @@
+
+gemini-gemma-apps-*.sh
+*.tmp
+downloaded-artifacts/

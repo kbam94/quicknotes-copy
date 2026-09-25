@@ -1,12 +1,12 @@
 :root {
-    --primary: #6200ee;
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-color: #bb86fc;
     --primary-variant: #3700b3;
-    --background: #f5f5f5;
-    --surface: #ffffff;
-    --text-main: #212121;
-    --text-secondary: #757575;
-    --danger: #b00020;
-    --shadow: 0 2px 5px rgba(0,0,0,0.1);
+    --text-main: #e1e1e1;
+    --text-dim: #a0a0a0;
+    --danger: #cf6679;
+    --transition: all 0.2s ease;
 }
 
 * {
@@ -15,103 +15,103 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
     color: var(--text-main);
+    overflow-x: hidden;
 }
 
 .app-container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 0 16px 80px 16px;
+    padding: 20px;
+    min-height: 100vh;
+    position: relative;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    background: var(--background);
-    z-index: 10;
+    margin-bottom: 30px;
+    padding: 10px 0;
 }
 
-h1 {
+header h1 {
     font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-color);
     margin: 0;
-    color: var(--primary);
 }
 
 .fab {
     width: 56px;
     height: 56px;
     border-radius: 28px;
-    background-color: var(--primary);
-    color: white;
+    background-color: var(--primary-color);
+    color: #000;
     border: none;
     font-size: 30px;
+    font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: var(--transition);
+}
+
+.fab:active {
+    transform: scale(0.9);
+    background-color: #a370db;
 }
 
 #notes-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 15px;
 }
 
 .note-card {
-    background: var(--surface);
-    padding: 16px;
+    background-color: var(--surface-color);
+    padding: 15px;
     border-radius: 12px;
-    box-shadow: var(--shadow);
     cursor: pointer;
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
     position: relative;
-    transition: transform 0.1s;
-    display: flex;
-    flex-direction: column;
-    height: 140px;
+    animation: fadeIn 0.3s ease;
 }
 
 .note-card:active {
-    transform: scale(0.98);
+    background-color: #2a2a2a;
 }
 
 .note-card h3 {
     margin: 0 0 8px 0;
-    font-size: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 18px;
+    color: var(--text-main);
 }
 
 .note-card p {
     margin: 0;
     font-size: 14px;
-    color: var(--text-secondary);
-    overflow: hidden;
+    color: var(--text-dim);
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    line-height: 1.4;
+    overflow: hidden;
 }
 
 .delete-btn {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
     color: var(--danger);
-    font-size: 12px;
+    font-size: 18px;
     cursor: pointer;
-    padding: 4px;
+    padding: 5px;
 }
 
 .modal {
@@ -121,68 +121,97 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 100;
-    align-items: flex-end;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
 }
 
 .modal-content {
-    background: var(--surface);
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    border-radius: 20px 20px 0 0;
-    padding: 20px;
+    background-color: var(--surface-color);
+    width: 90%;
+    max-width: 500px;
     height: 80vh;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .modal-header {
+    padding: 15px;
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid #333;
 }
 
 #note-title {
-    width: 100%;
+    flex: 1;
+    background: transparent;
     border: none;
-    font-size: 22px;
+    color: var(--text-main);
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 15px;
     outline: none;
+}
+
+#close-modal {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#save-note-btn {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 #note-body {
-    width: 100%;
     flex: 1;
+    background: transparent;
     border: none;
+    color: var(--text-main);
+    padding: 20px;
     font-size: 16px;
     resize: none;
     outline: none;
-    font-family: inherit;
+    line-height: 1.5;
 }
 
-.btn-primary {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.btn-text {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 14px;
+.empty-state {
+    text-align: center;
+    color: var(--text-dim);
+    margin-top: 50px;
+    font-style: italic;
 }
